@@ -1,12 +1,14 @@
 import logo from './logo.svg';
 import './App.css';
+import { render } from '@testing-library/react';
+import { Component } from 'react';
 
-function App() {
-  return (
-    <div className="App">
+class App extends Component {
+  render() {
+    return (
       <h1>Hello World!</h1>
-    </div>
-  );
+    )
+  };
 }
 
 export default App;
