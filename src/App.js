@@ -3,7 +3,7 @@ import './App.css';
 import { render } from '@testing-library/react';
 import { Component } from 'react';
 import Navbar from './components/layout/Navbar';
-import UserItem from './components/users/UserItem';
+import Users from './components/users/Users';
 
 class App extends Component {
   render() {
@@ -12,7 +12,9 @@ class App extends Component {
     return (
       <div className="App">
         <Navbar title={name} icon={"fab fa-github"} />
-        <UserItem />
+        <div className="container">
+          <Users />
+        </div>
       </div>
     )
   };
