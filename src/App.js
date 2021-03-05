@@ -22,7 +22,7 @@ class App extends Component {
   };
 
   render() {
-    const name = 'Github Finder';
+    const name = 'GitHub Finder';
 
     return (
       <div className="App">
