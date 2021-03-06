@@ -4,7 +4,6 @@ import Navbar from './components/layout/Navbar';
 import Users from './components/users/Users';
 import axios from 'axios';
 import Search from './components/users/Search';
-import PropTypes from 'prop-types';
 
 class App extends Component {
   state = {
@@ -24,10 +23,6 @@ class App extends Component {
 
   // };
 
-  static propTypes = {
-    searhUsers: PropTypes.func.isRequired
-  }
-
   searchUsers = async (text) => {
     this.setState({ loading: true, users: [] });
     const res = await axios.get(`https://api.github.com/search/users?q=${text}`);
@@ -39,15 +34,25 @@ class App extends Component {
     }, 1000);
   }
 
+  clearUsers = () => {
+    this.setState({
+      users: [],
+      loading: false
+    })
+  }
+
   render() {
     const name = 'GitHub Finder';
+    const { users, loading } = this.state;
+
 
     return (
       <div className="App">
         <Navbar title={name} icon={"fab fa-github"} />
         <div className="container">
-          <Search searhUsers={this.searchUsers} />
-          <Users loading={this.state.loading} users={this.state.users} />
+          <Search searhUsers={this.searchUsers} clearUsers={this.clearUsers}
+            showClear={users.length > 0} />
+          <Users loading={loading} users={users} />
         </div>
       </div>
     )
