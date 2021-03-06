@@ -9,7 +9,8 @@ class Search extends Component {
     static propTypes = {
         searhUsers: PropTypes.func.isRequired,
         clearUsers: PropTypes.func.isRequired,
-        showClear: PropTypes.bool.isRequired
+        showClear: PropTypes.bool.isRequired,
+        setAlert: PropTypes.func.isRequired
     }
 
     onChange = (e) => {
@@ -21,8 +22,16 @@ class Search extends Component {
 
     onSubmit = e => {
         e.preventDefault();
-        this.props.searhUsers(this.state.text);
-        this.setState({ text: '' });
+        if (this.state.text === '') {
+            this.props.setAlert(
+                'Please enter some value',
+                'light'
+            );
+        }
+        else {
+            this.props.searhUsers(this.state.text);
+            this.setState({ text: '' });
+        }
     }
 
     render() {

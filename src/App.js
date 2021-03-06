@@ -4,11 +4,14 @@ import Navbar from './components/layout/Navbar';
 import Users from './components/users/Users';
 import axios from 'axios';
 import Search from './components/users/Search';
+import Alert from './components/layout/Alert';
+
 
 class App extends Component {
   state = {
     users: [],
-    loading: false
+    loading: false,
+    alert: null
   }
 
   // async componentDidMount() {
@@ -41,17 +44,31 @@ class App extends Component {
     })
   }
 
+  setAlert = (msg, type) => {
+    this.setState({
+      alert: { msg, type }
+    });
+
+    setTimeout(() => {
+      this.setState({
+        alert: null
+      });
+    }, 3000);
+  }
+
   render() {
     const name = 'GitHub Finder';
-    const { users, loading } = this.state;
+    const { users, loading, alert } = this.state;
 
 
     return (
       <div className="App">
         <Navbar title={name} icon={"fab fa-github"} />
         <div className="container">
+          <Alert alert={alert} />
           <Search searhUsers={this.searchUsers} clearUsers={this.clearUsers}
-            showClear={users.length > 0} />
+            showClear={users.length > 0}
+            setAlert={this.setAlert} />
           <Users loading={loading} users={users} />
         </div>
       </div>
