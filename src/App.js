@@ -2,6 +2,7 @@ import './App.css';
 import { Component, Fragment } from 'react';
 import Navbar from './components/layout/Navbar';
 import Users from './components/users/Users';
+import User from './components/users/User';
 import axios from 'axios';
 import Search from './components/users/Search';
 import Alert from './components/layout/Alert';
@@ -12,6 +13,7 @@ import About from './components/pages/About';
 class App extends Component {
   state = {
     users: [],
+    user: {},
     loading: false,
     alert: null
   }
@@ -39,6 +41,17 @@ class App extends Component {
     }, 1000);
   }
 
+  getUser = async (userName) => {
+    this.setState({ loading: true, user: {} });
+    const res = await axios.get(`https://api.github.com/users/${userName}`);
+    setTimeout(() => {
+      this.setState({
+        loading: false,
+        user: res.data
+      });
+    }, 1000);
+  }
+
   clearUsers = () => {
     this.setState({
       users: [],
@@ -60,7 +73,7 @@ class App extends Component {
 
   render() {
     const name = 'GitHub Finder';
-    const { users, loading, alert } = this.state;
+    const { users, loading, alert, user } = this.state;
 
 
     return (
@@ -79,6 +92,10 @@ class App extends Component {
                 </Fragment>
               )} />
               <Route exact path="/about" component={About} />
+              <Route exact path="/user/:login" render={props => (
+                <User {...props} getUser={this.getUser} user={user}
+                  loading={loading} />
+              )} />
             </Switch>
           </div>
         </div>
